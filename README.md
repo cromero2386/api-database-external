@@ -2,7 +2,7 @@
 
 - Se crearon dos proyectos de php `proyecto-app-1` `proyecto-php-api` la estructura de cada uno es:
 
-- `proyecto-app-1`
+- `proyecto-app-web`
 
   - app-web
     - Dockerfile
@@ -25,3 +25,24 @@
    . [web]: http://localhost:9000/
 
    . [api]: http://localhost:9001/
+
+### Consideraciones
+
+1. En `proyecto-app-web` tenemos el `docker-compose.yml` en este archivo se declara la red de la siguiente manera:
+
+```
+networks:
+  mi-red:
+    driver: bridge
+    name: mi-red
+
+```
+
+2. En `proyecto-php-api` tenemos el `docker-compose.yml` en este archivo se declara la red de la siguiente manera:
+
+```
+networks:
+  mi-red:
+    external: true
+
+```
