@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  php-app-1:
+    container_name: php-app-1
+    build:
+      context: ./app-1
+      dockerfile: Dockerfile
+    ports:
+      - "9000:80"
+    depends_on:
+      - mysql-db
+    networks:
+      - mi-red
+    volumes:
+      - ./app-1:/app
+
+  mysql-db:
+    image: mysql:8.3.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: my_user
+      MYSQL_PASSWORD: my_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    networks:
+      - mi-red
+
+volumes:
+  db-data:
+
+networks:
+  mi-red:
+    driver: bridge
+    name: mi-red
